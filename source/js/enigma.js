@@ -87,3 +87,9 @@ Rotor.prototype.setRing = function(startPosition){
 		this.rotate();
 	}
 };
+
+// REFLECTOR //
+var Reflector = function(type){
+	this.type = type || 0;
+	this.reflector = config.reflectors[this.type];
+};
