@@ -20,3 +20,15 @@ var config = {
 					[5, 21, 15, 9, 8, 0, 14, 24, 4, 3, 17, 25, 23, 22, 6, 2, 19, 10, 20, 16, 18, 1, 13, 12, 7, 11]
 				]
 };
+
+// ENIGMA MACHINE //
+
+var Enigma = function(){
+	this.plugboard = new Plugboard();
+	this.rotors = [];
+	this.rotors.push(new Rotor(0));
+	this.rotors.push(new Rotor(1));
+	this.rotors.push(new Rotor(2));
+	this.reflector = new Reflector(2);
+};
+
