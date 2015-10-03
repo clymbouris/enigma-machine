@@ -64,3 +64,26 @@ Plugboard.prototype.unplugAll = function(){
 		this.connections[i] = i;
 	}
 };
+
+
+// ROTORS //
+
+var Rotor = function(type){	
+	this.type = type || 0;
+	this.rotor = config.rotors[this.type];
+	this.notch = config.notches[this.type];
+};
+
+Rotor.prototype.rotate = function(){
+	var currentPosition = this.rotor[0];
+	if(this.notch === currentPosition){
+		// rotate next rotor
+	}
+	this.rotor.unshift(this.rotor.pop());
+};
+
+Rotor.prototype.setRing = function(startPosition){
+	for(var i = 0; i < startPosition; i++){
+		this.rotate();
+	}
+};
