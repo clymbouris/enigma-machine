@@ -23,31 +23,46 @@ var config = {
 
 // ENIGMA MACHINE //
 
-var Enigma = function(){
+var Enigma = function(right, middle, left, reflector){
 	this.plugboard = new Plugboard();
 	this.rotors = [];
-	this.rotors.push(new Rotor(0));
-	this.rotors.push(new Rotor(1));
-	this.rotors.push(new Rotor(2));
-	this.reflector = new Reflector(2);
+	// Right Rotor
+	this.rotors.push(new Rotor(right || 0));
+	// Middle Rotor
+	this.rotors.push(new Rotor(middle || 1));
+	// Left Rotor
+	this.rotors.push(new Rotor(left || 0));
+	this.reflector = new Reflector(reflector || 1);
 };
 
-Enigma.prototype.encrypt = function(key){
+Enigma.prototype.encrypt = function(keyCode){
+	var key = e.letterToNumber(keyCode);
+	var plugboard = this.plugboard.connections;
 	var rotor1 = this.rotors[0];
 	var rotor2 = this.rotors[1];
 	var rotor3 = this.rotors[2];
 	var reflector = this.reflector.reflector;
 	var scrumble;
-	scrumble = rotor1.rotor[key];
+
+	scrumble = plugboard[key];
+	scrumble = rotor1.rotor[scrumble];
 	scrumble = rotor2.rotor[scrumble];
 	scrumble = rotor3.rotor[scrumble];
 	scrumble = reflector[scrumble];
 	scrumble = rotor3.rotor.indexOf(scrumble);
 	scrumble = rotor2.rotor.indexOf(scrumble);
-	scrumble = rotor3.rotor.indexOf(scrumble);
-	rotor1.rotate();
-	
-	return scrumble;
+	scrumble = rotor1.rotor.indexOf(scrumble);	
+	scrumble = plugboard[scrumble];
+
+	return e.numberToLetter(scrumble);
+};
+
+Enigma.prototype.letterToNumber = function(letter){
+	return config.alphabet.indexOf(letter);
+};
+
+Enigma.prototype.numberToLetter = function(number){
+	return config.alphabet[number];
 };
 
 // PLUGBOARD //
@@ -96,6 +111,9 @@ Rotor.prototype.rotate = function(){
 	var currentPosition = this.rotor[0];
 	if(this.notch === currentPosition){
 		// rotate next rotor
+		e.rotors[1].rotate();
+		console.log('Rotated Rotor II');
+
 	}
 	this.rotor.unshift(this.rotor.pop());
 };
@@ -112,5 +130,5 @@ var Reflector = function(type){
 	this.reflector = config.reflectors[this.type];
 };
 
-
+// INIT //
 var e = new Enigma();
