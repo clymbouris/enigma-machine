@@ -32,3 +32,35 @@ var Enigma = function(){
 	this.reflector = new Reflector(2);
 };
 
+// PLUGBOARD //
+
+var Plugboard = function(){
+	this.connections = [];
+	this.unplugAll();
+};
+
+Plugboard.prototype.plug = function(input, output){
+	if(this.isPlugged(input)) {
+		this.unplug(input);
+	}
+	this.connections[input] = output;
+	this.connections[output] = input;	
+};
+
+Plugboard.prototype.isPlugged = function(input){
+	// If an input is unplugged it equals itself
+	return (this.connections[input] !== input) ? true : false;
+};
+
+Plugboard.prototype.unplug = function(input){
+	// Happens in pairs. First unplug the cable were the input is plugged and set it to itself
+	this.connections[this.connections[input]] = this.connections[input];
+	// Then set the input to equal itself
+	this.connections[input] = input;	
+};
+
+Plugboard.prototype.unplugAll = function(){
+	for (var i = 0; i < config.alphabet.length; i++) {
+		this.connections[i] = i;
+	}
+};
