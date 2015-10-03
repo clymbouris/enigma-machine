@@ -32,6 +32,24 @@ var Enigma = function(){
 	this.reflector = new Reflector(2);
 };
 
+Enigma.prototype.encrypt = function(key){
+	var rotor1 = this.rotors[0];
+	var rotor2 = this.rotors[1];
+	var rotor3 = this.rotors[2];
+	var reflector = this.reflector.reflector;
+	var scrumble;
+	scrumble = rotor1.rotor[key];
+	scrumble = rotor2.rotor[scrumble];
+	scrumble = rotor3.rotor[scrumble];
+	scrumble = reflector[scrumble];
+	scrumble = rotor3.rotor.indexOf(scrumble);
+	scrumble = rotor2.rotor.indexOf(scrumble);
+	scrumble = rotor3.rotor.indexOf(scrumble);
+	rotor1.rotate();
+	
+	return scrumble;
+};
+
 // PLUGBOARD //
 
 var Plugboard = function(){
@@ -93,3 +111,6 @@ var Reflector = function(type){
 	this.type = type || 0;
 	this.reflector = config.reflectors[this.type];
 };
+
+
+var e = new Enigma();
