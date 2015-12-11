@@ -12,3 +12,6 @@ An attempt to mimic Enigma Machine's components in an object-oriented way using 
 
 ## Preview
 ![Enigma Machine](https://upload.wikimedia.org/wikipedia/commons/2/27/Enigma-plugboard.jpg)
+
+#License
+MIT license - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
